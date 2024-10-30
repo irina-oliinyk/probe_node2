@@ -1,3 +1,5 @@
+// Функція шо робить запит до бази
+
 import { StudentsCollection } from '../db/models/students.js';
 
 export const getAllStudents = async () => {
@@ -38,3 +40,7 @@ export const updateStudent = async (studentId, payload, options = {}) => {
     isNew: Boolean(rawResult?.lastErrorObject.upserted),
   };
 };
+
+// export const deleteStudentTwo = async filter => {
+//   const { id: _id } = await StudentsCollection.findOneAndDelete(filter);
+// };
