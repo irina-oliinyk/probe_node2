@@ -1,32 +1,27 @@
 import express from 'express';
-import pino from 'pino-http';
+
 import cors from 'cors';
 import { env } from './utils/env.js';
 import studentsRouter from './routes/students.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { loger } from './middlewares/loger.js';
 
 const PORT = Number(env('PORT', '3000'));
 
 export const startServer = () => {
   const app = express();
-  app.use(express.json());
-  app.use(cors());
-
   app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
+    express.json({
+      type: ['application/json', 'application/vnd.api+json'],
+      limit: '100kb',
     }),
   );
+  app.use(cors());
 
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Hello world!',
-    });
-  });
-  app.use(studentsRouter); // додаємо роутер до app як middleware
+  app.use(loger);
+
+  app.use('/students', studentsRouter); // + дописать адрес в начале и в функции удалить его(в файле роутер/студентс.js) додаємо роутер до app як middleware
 
   app.use('*', notFoundHandler);
 
