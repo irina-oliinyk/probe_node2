@@ -8,6 +8,8 @@ import { createStudent } from '../services/students.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 
+import { parseFilterParams } from '../utils/parseFilterParams.js';
+
 // 1. Імпортуємо функцію з бібліотеки
 import createHttpError from 'http-errors';
 
@@ -16,11 +18,16 @@ export const getStudentsController = async (req, res) => {
 
   const { sortBy, sortOrder } = parseSortParams(req.query);
 
+  // Добавления для фильтрации
+  const filter = parseFilterParams(req.query);
+
+  // тут тоже + filter
   const students = await getAllStudents({
     page,
     perPage,
     sortBy,
     sortOrder,
+    filter,
   });
 
   res.json({
