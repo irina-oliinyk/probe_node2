@@ -1,11 +1,13 @@
 import express from 'express';
 
+import router from './routes/index.js';
 import cors from 'cors';
 import { env } from './utils/env.js';
-import studentsRouter from './routes/students.js';
+// import studentsRouter from './routes/students.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { loger } from './middlewares/loger.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -19,9 +21,13 @@ export const startServer = () => {
   );
   app.use(cors());
 
+  app.use(cookieParser());
+
   app.use(loger);
 
-  app.use('/students', studentsRouter); // + дописать адрес в начале и в функции удалить его(в файле роутер/студентс.js) додаємо роутер до app як middleware
+  // app.use('/students', studentsRouter); // + дописать адрес в начале и в функции удалить его(в файле роутер/студентс.js) додаємо роутер до app як middleware
+
+  app.use(router);
 
   app.use('*', notFoundHandler);
 

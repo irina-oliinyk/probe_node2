@@ -22,14 +22,19 @@ router.get('/', ctrlWrapper(getStudentsController));
 router.get('/:studentId', isValidId, ctrlWrapper(getStudentByIdController));
 
 router.post(
-  '/',
+  '/register',
   validateBody(createStudentSchema),
   ctrlWrapper(createStudentController),
 );
 
 router.delete('/:studentId', isValidId, ctrlWrapper(deleteStudentController));
 
-router.put('/:studentId', isValidId, ctrlWrapper(upsertStudentController));
+router.put(
+  '/:studentId',
+  isValidId,
+  validateBody(createStudentSchema),
+  ctrlWrapper(upsertStudentController),
+);
 
 router.patch(
   '/:studentId',
