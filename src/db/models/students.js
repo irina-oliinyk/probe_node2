@@ -20,6 +20,12 @@ const studentsSchema = new Schema(
       require: true,
       default: false,
     },
+    onDuty: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    parentId: { type: Schema.Types.ObjectId, ref: 'users' }, // нова властивість
   },
   {
     timestamps: true,
